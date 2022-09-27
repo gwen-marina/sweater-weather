@@ -72,8 +72,8 @@ VCR.configure do |config|
   config.filter_sensitive_data('<mapquest_api_key>') { ENV['mapquest_api_key'] }
   config.filter_sensitive_data('<open_weather_api_key>') { ENV['open_weather_api_key'] }
   config.default_cassette_options = { re_record_interval: 7.days }
+  config.allow_http_connections_when_no_cassette = true 
   config.configure_rspec_metadata!
-
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
