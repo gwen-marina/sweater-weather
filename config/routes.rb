@@ -4,4 +4,6 @@ Rails.application.routes.draw do
  get '/api/v1/forecast', to: 'api/v1/forecast#weather_forecast'
  
  post '/api/v1/users', to: 'api/v1/users#create'
+
+ post '/api/v1/sessions', to: 'api/v1/sessions#create'
 end
