@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Users API' do 
 
   it 'can return a list of user data', :vcr do 
-
     params = {
       "email":"person4@woohoo.com",
       "password":"abc123",
@@ -37,4 +36,39 @@ RSpec.describe 'Users API' do
     expect(data[:attributes]).to have_key(:api_key)
     expect(data[:attributes][:api_key]).to be_a(String)
   end
+
+  it 'returns an error message if email is already taken' do
+    user = User.create!(email: "person4@woohoo.com", password: "123", password_confirmation: "123")
+
+    headers = { 'Content-Type': 'application/json' }
+    params = {
+              "email": "person4@woohoo.com",
+              "password": "12345",
+              "password_confirmation": "12345"
+             }
+
+    post '/api/v1/users', headers: headers, params: JSON.generate(params)
+
+    invalid = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to have_http_status(200)
+    expect(invalid[:status]).to eq(400)
+    expect(invalid[:message]).to eq('Email has already been taken')
+  end
+
+  it 'returns an error message when the passwords do not match' do
+    data = {
+      "email": "person4@woohoo.com",
+      "password": "1234",
+      "password_confirmation": "12345"
+    }
+    headers = { 'CONTENT_TYPE' => 'application/json', "Accept" => 'application/json' }
+    post '/api/v1/users', headers: headers, params: JSON.generate(data)
+
+    invalid = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invalid[:status]).to eq(400)
+    expect(invalid[:message]).to eq("Password confirmation doesn't match Password")
+  end
 end
+
