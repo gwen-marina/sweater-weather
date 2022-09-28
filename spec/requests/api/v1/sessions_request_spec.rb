@@ -50,7 +50,7 @@ RSpec.describe 'Sessions Request' do
     post '/api/v1/sessions', headers: headers, params: JSON.generate(data_login)
     user = JSON.parse(response.body, symbolize_names: true)
 
-    expect(user[:status]).to eq(400)
+    expect(status).to eq(400)
     expect(user).to have_key(:message)
     expect(user[:message]).to eq("Email or Password is incorrect, please try again.")
   end
@@ -72,7 +72,7 @@ RSpec.describe 'Sessions Request' do
     post '/api/v1/sessions', headers: headers, params: JSON.generate(data_login)
     user = JSON.parse(response.body, symbolize_names: true)
     
-    expect(user[:status]).to eq(400)
+    expect(status).to eq(400)
     expect(user).to have_key(:message)
     expect(user[:message]).to eq("Email or Password is incorrect, please try again.")
   end
@@ -94,7 +94,7 @@ RSpec.describe 'Sessions Request' do
     post '/api/v1/sessions', headers: headers, params: JSON.generate(data_login)
     user = JSON.parse(response.body, symbolize_names: true)
 
-    expect(user[:status]).to eq(400)
+    expect(status).to eq(400)
     expect(user).to have_key(:message)
     expect(user[:message]).to eq("Email or Password is incorrect, please try again.")
   end

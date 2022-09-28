@@ -51,8 +51,8 @@ RSpec.describe 'Users API' do
 
     invalid = JSON.parse(response.body, symbolize_names: true)
 
-    expect(response).to have_http_status(200)
-    expect(invalid[:status]).to eq(400)
+    expect(response).to have_http_status(400)
+    expect(status).to eq(400)
     expect(invalid[:message]).to eq('Email has already been taken')
   end
 
@@ -67,7 +67,8 @@ RSpec.describe 'Users API' do
 
     invalid = JSON.parse(response.body, symbolize_names: true)
 
-    expect(invalid[:status]).to eq(400)
+    expect(response).to have_http_status(400)
+    expect(status).to eq(400)
     expect(invalid[:message]).to eq("Password confirmation doesn't match Password")
   end
 end
