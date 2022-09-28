@@ -8,6 +8,6 @@ RSpec.describe RoadTripFacade do
     road_trip = RoadTripFacade.road_trip_route(origin, destination)
 
     expect(road_trip).to be_a Hash
-    expect(road_trip[:route]).to be_a Hash
+    expect(road_trip[:data]).to be_a Hash
   end
 end
