@@ -13,8 +13,8 @@ class RoadTripSerializer
             end_city: destination,
             travel_time: travel_time_formatted(data),
             weather_at_eta: {
-              temperature: arrival_eta_forecast(data, forecast)[0].temperature,
-              conditions: arrival_eta_forecast(data, forecast)[0].conditions
+              temperature: arrival_eta_forecast(data, forecast)[:temperature],
+              conditions: arrival_eta_forecast(data, forecast)[:conditions]
             }
           }
         }
@@ -49,12 +49,17 @@ class RoadTripSerializer
     def arrival_eta_forecast(data, forecast)
       hours = data[:route][:formattedTime].split(":")[0]
       arrival_time = Time.now + data[:route][:realTime] 
+      corrected_format = {temperature: nil, conditions: nil}
       if hours.to_i <= 48 
-        arrival_forecast = get_arrival_forecast_hourly(forecast, arrival_time)
+        arrival_forecast = get_arrival_forecast_hourly(forecast, arrival_time).first
+        corrected_format[:temperature] = arrival_forecast.temperature
+        corrected_format[:conditions] = arrival_forecast.conditions
       elsif hours.to_i > 48 
-        arrival_forecast = get_arrival_forecast_daily(forecast, arrival_time)
-      end
-      arrival_forecast
+        arrival_forecast = get_arrival_forecast_daily(forecast, arrival_time).first
+        corrected_format[:temperature] = arrival_forecast.max_temp
+        corrected_format[:conditions] = arrival_forecast.conditions
+      end      
+      corrected_format
     end
     
     def get_arrival_forecast_hourly(forecast, arrival_time)
@@ -62,7 +67,7 @@ class RoadTripSerializer
     end
 
     def get_arrival_forecast_daily(forecast, arrival_time)
-      arrival_day = forecast[:data][:attributes][:daily_weather].select {|day| day.date > arrival_time.beginning_of_day && day[:date] < arrival_time.end_of_day}
+      arrival_day = forecast[:data][:attributes][:daily_weather].select {|day| day.date > arrival_time.beginning_of_day && day.date < arrival_time.end_of_day}
     end
   end
 end
