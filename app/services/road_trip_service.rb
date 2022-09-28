@@ -14,7 +14,7 @@ class RoadTripService
     
     def get_road_trip(origin, destination)
       response = conn.get("/directions/v2/route?from=#{origin}&to=#{destination}")
-      body = json_response(response)
+      json_response(response)
     end
   end
 end
