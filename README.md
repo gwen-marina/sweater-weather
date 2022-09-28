@@ -7,7 +7,7 @@
   <summary>Table of Contents</summary>
   <ol>
     </li>
-    <li><a href="#project-overview">Project Overview</a></li>
+    <li><a href="#project-overview">Project Background and Description</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#setup">Setup</a></li>
     <li><a href="#api-endpoints">API Endpoints</a></li>
@@ -15,7 +15,7 @@
 </details>
 
 <!-- PROJECT OVERVIEW -->
-## Project Overview
+## Project Background and Description
 Sweater-Weather is part of a Service-Oriented Architecture (SOA) application for the back-end that exposes several API endpoints. The data exposed shows forecasts for a certain area, and also allows you to find the weather at your end destination that is accurate to your time of arrival. A front-end client can hit multiple endpoints, and get a JSON response from these endpointds. Two different third party APIs were consumed to build the endpoints and return formatted data. 
 
 <!-- Built With -->
